@@ -44,5 +44,7 @@ class ComputeLinearRegression:
         small_sd = self.linear_reg_sd(small_x, y[-self.small:], small_reg)
         med_sd = self.linear_reg_sd(med_x, y[-self.medium:], med_reg)
         big_sd = self.linear_reg_sd(big_x, y, big_reg)
-        return small_reg, small_sd, med_reg, med_sd, big_reg, big_sd
+        return small_reg.predict([[self.small]]), small_sd, med_reg.predict([[self.medium]]), med_sd, \
+               big_reg.predict([[self.big]]), big_sd
+
 
