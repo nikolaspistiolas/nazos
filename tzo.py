@@ -1,1 +1,0 @@
-print('Tzo s agapw')
