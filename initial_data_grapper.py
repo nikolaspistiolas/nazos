@@ -23,12 +23,15 @@ for i in symbols:
 
 print(symbols)
 for s in symbols:
-    stock_list.insert_one({'symbol': s,
-                           'active': True})
-    data = yf.Ticker(s).history(start='2010-01-01')
-    data = data.drop(['Dividends', 'Stock Splits'],axis=1)
-    data['Date'] = data.index
-    data = data.to_dict('records')
-    for i in (data):
-        i['symbol'] = s
-        col.insert_one(i)
+    try:
+        data = yf.Ticker(s).history(start='2010-01-01')
+        data = data.drop(['Dividends', 'Stock Splits'],axis=1)
+        data['Date'] = data.index
+        data = data.to_dict('records')
+        for i in (data):
+            i['symbol'] = s
+            col.insert_one(i)
+        stock_list.insert_one({'symbol': s,
+                               'active': True})
+    except:
+        print('In Exception')
