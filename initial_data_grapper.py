@@ -4,9 +4,9 @@ import pandas as pd
 import numpy as np
 
 client = pymongo.MongoClient('mongodb://%s:%s@127.0.0.1' % ('nikolas', 'gwlGwl1q'))
-db = client['Nazos']
-col = db['daily_stocks']
-stock_list = db['stock_list']
+db = client['production']
+col = db['stockdata']
+stock_list = db['stocklists']
 
 data = pd.read_excel('./grid1_ilviqful.xlsx',usecols=['Securities'])
 data = data.to_numpy()
@@ -22,7 +22,6 @@ for i in symbols:
 
 
 print(symbols)
-input('END???')
 for s in symbols:
     stock_list.insert_one({'symbol': s,
                            'active': True})
