@@ -6,8 +6,9 @@ const bodyParser = require('body-parser');
 
 
 // Import routes
-const stocksRoute = require('./routes/stock_list');
-const linearRoute = require('./routes/linear_variables')
+const stocksRoute = require('./routes/stocklist_route');
+const linearRoute = require('./routes/algotradevariables_route')
+
 //Middleware
 app.use(bodyParser.json());
 app.use('/stocks', stocksRoute);

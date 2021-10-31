@@ -5,9 +5,9 @@ client = pymongo.MongoClient('mongodb://%s:%s@127.0.0.1' % ('nikolas', 'gwlGwl1q
 db = client['Nazos']
 symbols = db['stock_list'].find()
 
-linear_params = db['linear_parameter'].find_one({})
+linear_params = db['algotradevariables'].find_one({})
 
-upload_col = db['linear_regression_data']
+upload_col = db['linearresults']
 
 for i in symbols:
     tmp_class = ComputeLinearRegression(i['symbol'], linear_params['big'], linear_params['medium'], linear_params['small'])
@@ -15,6 +15,9 @@ for i in symbols:
     res = tmp_class.multiple_regressions(data)
     up = {'symbol': i['symbol'],
           'Date': date,
+          'small': linear_params['small'],
+          'medium': linear_params['medium'],
+          'big': linear_params['big'],
           'small_pred': res[0],
           'small_sd': res[1],
           'medium_pred': res[2],

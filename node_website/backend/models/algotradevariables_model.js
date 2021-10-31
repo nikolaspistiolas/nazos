@@ -2,31 +2,31 @@ const mongoose = require('mongoose');
 
 const LinearSchema = mongoose.Schema({
     big: {
-        type: Integer,
+        type: Number,
         required: true
     },
     medium: {
-        type: Integer,
+        type: Number,
         required: true
     },
     small: {
-        type: Integer,
+        type: Number,
         required: true
     },
     big_sd: {
-        type: Double,
+        type: Number,
         required: true
     },
     medium_sd: {
-        type: Double,
+        type: Number,
         required: true
     },
     small_sd: {
-        type: Double,
+        type: Number,
         required: true
     },
     stoploss: {
-        type: Double,
+        type: Number,
         required: true
     },
     subscribeDate: {
@@ -35,4 +35,4 @@ const LinearSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('LinearVriables', LinearSchema);
+module.exports = mongoose.model('algotradevariables', LinearSchema);

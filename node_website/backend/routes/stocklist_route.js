@@ -1,5 +1,5 @@
 const express = require('express');
-const StockSchema = require('../models/add_remove_stock');
+const StockSchema = require('../models/singlestock_model');
 const router = express.Router();
 
 // Get All
