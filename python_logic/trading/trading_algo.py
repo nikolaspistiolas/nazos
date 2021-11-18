@@ -78,6 +78,4 @@ class TradingClass:
     def end_of_day(self):
         self.trade.cancel_orders()
 
-test = TradingClass()
 
-test.begining_of_day()
