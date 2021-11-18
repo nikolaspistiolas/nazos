@@ -3,12 +3,13 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 
-client = pymongo.MongoClient('mongodb://%s:%s@127.0.0.1' % ('nikolas', 'gwlGwl1q'))
+
+client = pymongo.MongoClient('mongodb://%s:%s@134.209.255.171' % ('nikolas', 'gwlGwl1q'))
 db = client['production']
 col = db['stockdata']
 stock_list = db['stocklists']
 
-data = pd.read_excel('./grid1_ilviqful.xlsx',usecols=['Securities'])
+data = pd.read_excel('./initialdata/grid1_ilviqful.xlsx',usecols=['Securities'])
 data = data.to_numpy()
 symbols = []
 names = []
@@ -24,6 +25,7 @@ for i in symbols:
 print(symbols)
 for s in symbols:
     try:
+        print(s)
         data = yf.Ticker(s).history(start='2010-01-01')
         data = data.drop(['Dividends', 'Stock Splits'],axis=1)
         data['Date'] = data.index

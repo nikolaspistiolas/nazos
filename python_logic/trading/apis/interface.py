@@ -14,7 +14,7 @@ class TradingClientInterface:
     def close_all_orders(self):
         pass
 
-    def get_order_history(self, symbol = None):
+    def get_order_history(self, symbol):
         pass
 
     def get_balance(self):

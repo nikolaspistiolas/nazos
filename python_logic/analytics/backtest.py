@@ -1,19 +1,22 @@
-import pandas as pd
+import pymongo
 import yfinance as yf
 from sklearn.linear_model import LinearRegression
 import numpy as np
+from datetime import datetime
 
-class TradeEnv:
-    def __init__(self, stock_symbol, buy_sd=2.0, sell_sd=2.0, big=250, medium=120, small=30,stop_loss = 0.05):
+class BacktestEnv:
+    def __init__(self, stock_symbol, buy_sd=1.2, sell_sd=1.9, big=180, medium=130, small=50,stop_loss = 0.01, capital = 10000):
+        self.client = pymongo.MongoClient('mongodb://%s:%s@134.209.255.171' % ('nikolas', 'gwlGwl1q'))
         self.stop_loss = stop_loss
         self.down_limit = buy_sd
         self.upper_limit = sell_sd
         self.big = big
         self.medium = medium
         self.small = small
-        self.initial_capital = 10000
+        self.initial_capital = capital
         self.initial_stocks = 0
         self.data = yf.Ticker(stock_symbol).history(period="1d", start="2010-1-1")['Close'].values
+        self.symbol = stock_symbol
         self.buys = [0, 0, 0]
         self.sells = [0, 0, 0]
 
@@ -48,7 +51,8 @@ class TradeEnv:
         status = {'open_order': False,
                   'open_buy': 0,
                   'capital': self.initial_capital,
-                  'stocks': self.initial_stocks
+                  'stocks': self.initial_stocks,
+                  'num_of_trades': 0
                   }
         for i in range(self.big, len(self.data)):
             x = self.data[i - self.big:i]
@@ -71,6 +75,7 @@ class TradeEnv:
                     status['open_order'] = True
                     status['open_buy'] = real
                     status['capital'] = 0
+                    status['num_of_trades'] +=1
             if real > big_pred + self.upper_limit * big_sd and real > medium_pred + self.upper_limit * med_sd \
                     and real > small_pred + self.upper_limit * small_sd:
                 if status['open_order']:
@@ -80,4 +85,18 @@ class TradeEnv:
                     status['open_buy'] = 0
         status['last_price'] = self.data[-1]
         return status
+
+    def backtest(self):
+        results = self.trade()
+        results['capital'] += results['stocks'] * results['last_price']
+        results['stocks'] = 0
+        results['win_coef'] = self.data[-1]/ self.data[0]
+        results['symbol'] = self.symbol
+        del results['last_price']
+        del results['open_buy']
+        del results['open_order']
+        del results['stocks']
+        results['date'] = datetime.today()
+        self.client['production']['backtest'].insert_one(results)
+
 

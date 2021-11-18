@@ -16,7 +16,7 @@ class ComputeLinearRegression:
     def get_data(self):
         data = [i for i in self.col.find({'symbol': self.symbol})]
         df = pd.DataFrame.from_records(data)
-        df = df.set_index('Date')
+        #df = df.set_index('Date')
         return df.iloc[-1].index, df['Close'].to_numpy()[-self.big :]
 
     def linear_reg_sd(self, x, y, line: LinearRegression):
@@ -27,6 +27,7 @@ class ComputeLinearRegression:
         predicted = line.predict(y)
         for i in range(len(y)):
             sumi += (predicted[i][0] - x[i][0]) ** 2
+
         sumi /= len(y)
         return sumi ** 0.5
 
@@ -41,10 +42,13 @@ class ComputeLinearRegression:
         small_reg.fit(y[:self.small], small_x)
         med_reg.fit(y[:self.medium], med_x)
         big_reg.fit(y, big_x)
-        small_sd = self.linear_reg_sd(small_x, y[-self.small:], small_reg)
-        med_sd = self.linear_reg_sd(med_x, y[-self.medium:], med_reg)
+        small_sd = self.linear_reg_sd(small_x, y[:self.small], small_reg)
+        med_sd = self.linear_reg_sd(med_x, y[:self.medium], med_reg)
         big_sd = self.linear_reg_sd(big_x, y, big_reg)
         return small_reg.predict([[self.small]]), small_sd, med_reg.predict([[self.medium]]), med_sd, \
                big_reg.predict([[self.big]]), big_sd
 
 
+a = ComputeLinearRegression('CMG',180,120,40)
+print(a.multiple_regressions(a.get_data()[1]))
+print(a.get_data()[1][-1])

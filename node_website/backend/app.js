@@ -13,7 +13,6 @@ const linearRoute = require('./routes/algotradevariables_route')
 app.use(bodyParser.json());
 app.use('/stocks', stocksRoute);
 app.use('/linear', linearRoute);
-
 // Routes
 
 //Connect to mongodb
