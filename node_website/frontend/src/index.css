@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+* {
+
+    text-align: center;
+
+}
+
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0 auto;
+    background-color: #787878;
+    top: 2em;
+    width: 22em;
+    height: 14em;
+    padding: 0;
+
+}
+
+.container {
+    top: 2em;
+    width: 22em;
+    height: 14em;
+    border: 2px solid #22d;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #a9f;
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: #2c292b;
+    margin-left: 10px;
+}
+
+.left {
+    height: 100vh;
+    width: 50%;
+    background-color: grey;
+    float: left;
+}
+
+.right {
+    height: 100vh;
+    width: 50%;
+    background-color: red;
+    float: right;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #2c292b;
+}
+ /* CSS */
+.deactivate-button {
+    width:100px;
+    margin-top:4px;
+    margin-left: -10px;
+   background-color: #c2fbd7;
+   border-radius: 100px;
+   box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+   color: green;
+   cursor: pointer;
+   display: inline-block;
+   font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+   padding: 7px 20px;
+   text-align: center;
+   text-decoration: none;
+   transition: all 250ms;
+   border: 0;
+   font-size: 21px;
+   user-select: none;
+   -webkit-user-select: none;
+   touch-action: manipulation;
+}
+
+.activate-button {
+    width:100px;
+    margin-top:4px;
+    margin-left: -10px;
+    background-color: #ff7f50;
+    border-radius: 100px;
+    box-shadow: rgba(187, 44, 99, .2) 0 -25px 18px -14px inset,rgba(187, 44, 99, .15) 0 1px 2px,rgba(187, 44, 99, .15) 0 2px 4px,rgba(187, 44, 99, .15) 0 4px 8px,rgba(187, 44, 99, .15) 0 8px 16px,rgba(187, 44, 99, .15) 0 16px 32px;
+    color: #800000;
+    cursor: pointer;
+    display: inline-block;
+    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 250ms;
+    border: 0;
+    font-size: 21px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.deactivate-button:hover {
+    box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+    transform: scale(1.15) rotate(-10deg);
+}
+
+.activate-button:hover {
+    box-shadow: rgba(187,44,99,.35) 0 -25px 18px -14px inset,rgba(187,44,99,.25) 0 1px 2px,rgba(187,44,99,.25) 0 2px 4px,rgba(187,44,99,.25) 0 4px 8px,rgba(187,44,99,.25) 0 8px 16px,rgba(187,44,99,.25) 0 16px 32px;
+    transform: scale(1.15) rotate(-10deg);
+}
+
+
+
+ul {
+    margin: 0 auto;
+    text-align: center;
+}
+
+li {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.Stockparent {
+    display: flex;
+}
+
+.element {
+
+    flex-basis: 100px;
+    height: 100px;
+    margin: 5px;
+}
+
+.input {
+    margin-top: 500px;
+
+}
