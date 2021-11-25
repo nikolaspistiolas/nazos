@@ -37,8 +37,10 @@ router.delete('/', async (req, res) =>{
 // Update One
 router.patch('/', async (req, res) =>{
     console.log('It inserts UPDATE');
+    console.log(req.body.symbol,req.body.active)
     await StockSchema.updateOne({symbol:req.body.symbol},{active:req.body.active});
     res.json({symbol:req.body.symbol,active:req.body.active})
+
 })
 
 module.exports = router;

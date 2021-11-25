@@ -1,15 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const app = express();
 require('dotenv/config');
 const bodyParser = require('body-parser');
 
+const app = express();
 
 // Import routes
 const stocksRoute = require('./routes/stocklist_route');
 const linearRoute = require('./routes/algotradevariables_route')
 
 //Middleware
+
 app.use(bodyParser.json());
 app.use('/stocks', stocksRoute);
 app.use('/linear', linearRoute);
@@ -25,4 +26,4 @@ const db = mongoose.connection
 db.on('error', (error)=> console.error(error))
 db.once('open', ()=> console.log('Connected to db'))
 
-app.listen(5000);
+app.listen(5001);

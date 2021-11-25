@@ -7,8 +7,6 @@ class AlpacaTradingInterface:
                  secretkey = '0SB381pheaj08DXbjBk4QcfHJDIXuqQ3oRHKOVHU'):
         self.alpaca = tradeapi.REST(apikey,secretkey, 'https://paper-api.alpaca.markets', api_version='v2')
         self.account = self.alpaca.get_account()
-        print(self.account)
-        self.dbclient = None
 
     # OPENS A MARKET ORDER
     def open_market_order(self, symbol, amount):
@@ -65,9 +63,3 @@ class AlpacaTradingInterface:
     def get_cash_value(self):
         return float(self.account.cash)
 
-
-
-test = AlpacaTradingInterface('PKIYV16ZKVA5LHM8F9F2','0SB381pheaj08DXbjBk4QcfHJDIXuqQ3oRHKOVHU')
-
-print(test.get_active_orders())
-#

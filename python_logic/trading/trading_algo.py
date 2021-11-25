@@ -1,5 +1,6 @@
 import pymongo
 from apis import alpaca_class
+from datetime import datetime
 
 
 class TradingClass:
@@ -9,7 +10,6 @@ class TradingClass:
         self.db = client['production']
         self.stocks = set([i['symbol'] for i in self.db['stocklists'].find({'active': True})])
         self.signals = self.db['signals'].find().sort('Date', pymongo.DESCENDING).next()
-        print(self.signals)
         self.stop_loss = self.db['algotradevariables'].find().next()['stop_loss']
 
     def close_orders(self):
@@ -47,7 +47,6 @@ class TradingClass:
 
     def get_open_orders_symbols(self):
         orders = self.trade.get_active_orders()
-        print(orders)
         return orders.keys()
 
     def get_value_to_open_order(self):
@@ -77,5 +76,33 @@ class TradingClass:
 
     def end_of_day(self):
         self.trade.cancel_orders()
+
+    def get_all_orders(self):
+        up = {}
+        orders = self.trade.alpaca.list_orders(
+            status='all',
+            limit=500,
+        )
+        for i in orders:
+
+            if i.canceled_at is None:
+                if i.side == 'sell':
+                    pass
+
+
+
+
+
+
+    def get_account_info(self):
+        up ={}
+        up['Date'] = datetime.today()
+        up['cash'] = self.trade.account.cash
+        up['portfolio_value'] = self.trade.account.portfolio_value
+        self.db['account_info'].insert_one(up)
+        return
+
+
+TradingClass().get_all_orders()
 
 
