@@ -7,7 +7,7 @@ import SingleStockActiveList from "./ActiveStockList";
 function ActiveStocks(props){
     const [isLoading, setIsLoading] = useState(true);
     const [loadedStocks, setLoadedStocks] = useState([]);
-
+    const items = [];
     useEffect(() => {
         setIsLoading(true);
         fetch(
@@ -17,9 +17,7 @@ function ActiveStocks(props){
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 const stocks = [];
-
                 for (const key in data['active']) {
                     const meetup = {
                         symbol: data['active'][key].symbol
@@ -27,12 +25,10 @@ function ActiveStocks(props){
 
                     stocks.push(meetup);
                 }
-                console.log(stocks)
                 setIsLoading(false);
                 setLoadedStocks(stocks);
             });
     }, []);
-
     if (isLoading) {
         return (
             <section>
@@ -44,6 +40,7 @@ function ActiveStocks(props){
     return (
         <div>
             <h1>List of ActiveStocks</h1>
+
             <SingleStockActiveList stocks={loadedStocks}/>
         </div>
     )

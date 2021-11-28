@@ -1,14 +1,18 @@
 import pymongo
 from apis import alpaca_class
 from datetime import datetime
+from mongo_url import url
 
 
 class TradingClass:
     def __init__(self):
         self.trade = alpaca_class.AlpacaTradingInterface()
-        client = pymongo.MongoClient('mongodb://%s:%s@134.209.255.171' % ('nikolas', 'gwlGwl1q'))
+        client = pymongo.MongoClient(f'{url}:27017',username='nikolas',password='gwlGwl1q')
         self.db = client['production']
         self.stocks = set([i['symbol'] for i in self.db['stocklists'].find({'active': True})])
+        self.prices = []
+        for i in self.stocks:
+            self.prices.append(self.db['stockdata'].find({'symbol':i}).sort('Date', pymongo.DESCENDING).next()['Close'])
         self.signals = self.db['signals'].find().sort('Date', pymongo.DESCENDING).next()
         self.stop_loss = self.db['algotradevariables'].find().next()['stop_loss']
 
@@ -31,11 +35,22 @@ class TradingClass:
 
     def open_order_at_price(self):
         open_symbols = self.get_open_orders_symbols()
-        for i in self.stocks:
-            if i not in open_symbols and self.signals[i]['signal'] == 'stable':
-                buy_price = self.signals[i]['buy_price']
-                qty = self.get_specific_quantity_for_symbol(buy_price)
-                self.trade.open_limit_order(i, qty, self.stop_loss, buy_price)
+        will_open = []
+        counter = len(open_symbols)
+        for s,p in zip(self.stocks,self.prices):
+            if s not in open_symbols and self.signals[s]['signal'] == 'buy':
+                counter += 1
+            if s not in open_symbols and self.signals[s]['signal'] == 'stable':
+                will_open.append({'symbol': s,
+                                  'power': abs( (self.signals[s]['buy_price'] - p)/(self.signals[s]['buy_price'] - self.signals[s]['sell_price']) ),
+                                  'buy_price': self.signals[s]['buy_price']})
+        will_open.sort(key=lambda x: x["power"])
+        if counter >= 10:
+            return -1
+        will_open = will_open[:10-counter]
+        for i in will_open:
+            qty = self.get_specific_quantity_for_symbol(i['symbol'])
+            self.trade.open_limit_order(i['symbol'], qty, self.stop_loss, i['buy_price'])
 
     def close_order_at_price(self):
         open_symbols = self.get_open_orders_symbols()
@@ -89,11 +104,6 @@ class TradingClass:
                 if i.side == 'sell':
                     pass
 
-
-
-
-
-
     def get_account_info(self):
         up ={}
         up['Date'] = datetime.today()
@@ -103,6 +113,6 @@ class TradingClass:
         return
 
 
-TradingClass().get_all_orders()
 
 
+print(TradingClass().open_order_at_price())

@@ -10,12 +10,12 @@ class AlpacaTradingInterface:
 
     # OPENS A MARKET ORDER
     def open_market_order(self, symbol, amount):
-        self.alpaca.submit_order(symbol=symbol, qty=amount, side='buy', type='market')
+        self.alpaca.submit_order(symbol=symbol, qty=amount, side='buy', type='market', extended_hours=False)
 
     # OPENS A LIMIT ORDER AT PRICE WITH STOPLOSS
     def open_limit_order(self, symbol, amount, stop_loss, at_price):
         self.alpaca.submit_order(symbol=symbol, qty=amount, side='buy', type='limit',
-                                 stop_price=(1 - stop_loss) * at_price,limit_price=at_price)
+                                 limit_price=at_price,extended_hours = False, stop_loss=stop_loss)
         return
 
     def close_limit_order(self, symbol, at_price, amount):

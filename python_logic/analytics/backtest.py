@@ -3,10 +3,11 @@ import yfinance as yf
 from sklearn.linear_model import LinearRegression
 import numpy as np
 from datetime import datetime
+from mongo_url import url
 
 class BacktestEnv:
     def __init__(self, stock_symbol, buy_sd=1.2, sell_sd=1.9, big=180, medium=130, small=50,stop_loss = 0.01, capital = 10000):
-        self.client = pymongo.MongoClient('mongodb://%s:%s@134.209.255.171' % ('nikolas', 'gwlGwl1q'))
+        self.client = pymongo.MongoClient(f'{url}:27017',username='nikolas',password='gwlGwl1q')
         self.stop_loss = stop_loss
         self.down_limit = buy_sd
         self.upper_limit = sell_sd

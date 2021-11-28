@@ -1,7 +1,8 @@
 import pymongo
 from datetime import datetime
+from mongo_url import url
 
-client = pymongo.MongoClient('mongodb://%s:%s@134.209.255.171' % ('nikolas', 'gwlGwl1q'))
+client = pymongo.MongoClient(f'{url}:27017',username='nikolas',password='gwlGwl1q')
 db = client['production']
 upcol = db['signals']
 prices_col = db['stockdata']

@@ -16,7 +16,6 @@ function ActiveStocks(props){
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 const stocks = [];
 
                 for (const key in data['inactive']) {
@@ -26,7 +25,6 @@ function ActiveStocks(props){
 
                     stocks.push(meetup);
                 }
-                console.log(stocks)
                 setIsLoading(false);
                 setLoadedStocks(stocks);
             });
