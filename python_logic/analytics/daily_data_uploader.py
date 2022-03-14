@@ -16,11 +16,12 @@ print(date)
 for symbol in client['production']['stocklists'].find():
 
     symbol = symbol['symbol']
-    data = yf.Ticker('AAPL').history(start=date-timedelta(days=2), end=date)
+    data = yf.Ticker(symbol).history(start=date-timedelta(days=2), end=date)
 
     data = data.drop(['Dividends', 'Stock Splits'],axis=1)
     data = data.to_dict('records')[0]
     data['Date'] = date
+    data['symbol'] = symbol
     print(data)
     col.insert_one(data)
 

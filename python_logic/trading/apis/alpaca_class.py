@@ -41,6 +41,7 @@ class AlpacaTradingInterface:
             }
         return ret
 
+
     # CLOSE ALL POSITIONS
     def close_all_orders(self):
         print('Closing Positions')
