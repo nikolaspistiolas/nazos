@@ -8,7 +8,8 @@ const app = express();
 // Import routes
 const accountinfoRoute = require('./routes/acountinfo_route')
 const stocksRoute = require('./routes/stocklist_route');
-const linearRoute = require('./routes/algotradevariables_route')
+const linearRoute = require('./routes/linearvariables_route')
+const algotradevariables = require('./routes/algotradevariables_route');
 
 //Middleware
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 app.use('/stocks', stocksRoute);
 app.use('/linear', linearRoute);
 app.use('/accountinfo',accountinfoRoute);
+app.use('/tradevariables',algotradevariables);
 // Routes
 
 //Connect to mongodb
@@ -25,4 +27,4 @@ mongoose.connect("mongodb://nikolas:gwlGwl1q@134.209.255.171:27017/production?au
     console.log('Connected to db');
 });
 
-app.listen(5001);
+app.listen(6000);

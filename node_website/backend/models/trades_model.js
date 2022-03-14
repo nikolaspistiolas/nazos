@@ -29,6 +29,10 @@ const TradesSchema = mongoose.Schema({
     CloseDate: {
         type: Date,
         required: false
+    },
+    return: {
+        type: Number,
+        required: false
     }
 });
 

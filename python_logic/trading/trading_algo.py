@@ -1,7 +1,8 @@
 import pymongo
 from apis import alpaca_class
 from datetime import datetime
-from mongo_url import url
+
+url = '134.209.255.171'
 
 
 class TradingClass:
@@ -37,8 +38,11 @@ class TradingClass:
         open_symbols = self.get_open_orders_symbols()
         will_open = []
         counter = len(open_symbols)
+        if counter >= 10:
+            return -1
         for s,p in zip(self.stocks,self.prices):
             if s not in open_symbols and self.signals[s]['signal'] == 'buy':
+                print(s, 'signal is buy')
                 counter += 1
             if s not in open_symbols and self.signals[s]['signal'] == 'stable':
                 will_open.append({'symbol': s,
@@ -49,7 +53,8 @@ class TradingClass:
             return -1
         will_open = will_open[:10-counter]
         for i in will_open:
-            qty = self.get_specific_quantity_for_symbol(i['symbol'])
+            print('Limit order', i)
+            qty = self.get_specific_quantity_for_symbol(i['buy_price'])
             self.trade.open_limit_order(i['symbol'], qty, self.stop_loss, i['buy_price'])
 
     def close_order_at_price(self):
@@ -75,7 +80,7 @@ class TradingClass:
         return int(cash_for_symbol/last_close_price)
 
     def get_specific_quantity_for_symbol(self, at_price):
-        cash_for_symbol = self.get_value_to_open_order()
+        cash_for_symbol = float(self.get_value_to_open_order())
         return int(cash_for_symbol/at_price)
 
     def get_price_for_symbol(self, symbol):
@@ -86,6 +91,7 @@ class TradingClass:
         self.close_orders()
         self.close_order_at_price()
         self.open_order_at_price()
+        print('opening order at signal')
         self.open_order_with_signal()
         return
 
@@ -113,6 +119,3 @@ class TradingClass:
         return
 
 
-
-
-print(TradingClass().open_order_at_price())

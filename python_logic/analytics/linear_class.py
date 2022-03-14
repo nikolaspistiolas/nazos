@@ -2,7 +2,8 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 import pymongo
 import pandas as pd
-from mongo_url import url
+
+url = '134.209.255.171'
 
 class ComputeLinearRegression:
     def __init__(self, symbol, big, medium, small):

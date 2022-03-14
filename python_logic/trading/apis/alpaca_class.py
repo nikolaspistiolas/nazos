@@ -3,8 +3,8 @@ import pymongo
 
 
 class AlpacaTradingInterface:
-    def __init__(self, apikey = 'PKIYV16ZKVA5LHM8F9F2',
-                 secretkey = '0SB381pheaj08DXbjBk4QcfHJDIXuqQ3oRHKOVHU'):
+    def __init__(self, apikey = 'PK0XQD2BCNOAIIU2D129',
+                 secretkey = 'T7OlSRUcsIkhuTjP70uuCGhiZAT124GYGbeyQcXO'):
         self.alpaca = tradeapi.REST(apikey,secretkey, 'https://paper-api.alpaca.markets', api_version='v2')
         self.account = self.alpaca.get_account()
 
@@ -14,12 +14,15 @@ class AlpacaTradingInterface:
 
     # OPENS A LIMIT ORDER AT PRICE WITH STOPLOSS
     def open_limit_order(self, symbol, amount, stop_loss, at_price):
+        print(at_price)
+        stop_loss = (1-stop_loss) * at_price
+
         self.alpaca.submit_order(symbol=symbol, qty=amount, side='buy', type='limit',
-                                 limit_price=at_price,extended_hours = False, stop_loss=stop_loss)
+                                 limit_price=at_price, extended_hours=False, stop_loss=dict(stop_price=stop_loss))
         return
 
     def close_limit_order(self, symbol, at_price, amount):
-        self.alpaca.submit_order(symbol=symbol, qty=amount, side='sell', type='limit',limit_price=at_price )
+        self.alpaca.submit_order(symbol=symbol, qty=amount, side='sell', type='limit', limit_price=at_price )
         return
 
     # CLOSES ALL ORDERS
@@ -40,6 +43,7 @@ class AlpacaTradingInterface:
 
     # CLOSE ALL POSITIONS
     def close_all_orders(self):
+        print('Closing Positions')
         self.alpaca.close_all_positions()
         return
 

@@ -5,7 +5,7 @@ import Title from './components/Title';
 function App() {
 
   return (
-        <div>
+        <div style={{width:"100vw"}}>
             <Title />
           <div className="parent">
 

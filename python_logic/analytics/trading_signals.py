@@ -1,6 +1,7 @@
 import pymongo
 from datetime import datetime
-from mongo_url import url
+
+url = '134.209.255.171'
 
 client = pymongo.MongoClient(f'{url}:27017',username='nikolas',password='gwlGwl1q')
 db = client['production']
@@ -40,3 +41,5 @@ for stock in active_stocks:
     up[stock] = up_tmp
 print(up)
 upcol.insert_one(up)
+
+
