@@ -2,7 +2,7 @@ from linear_class import ComputeLinearRegression
 import pymongo
 from datetime import datetime
 
-url = '134.209.255.171'
+url = 'localhost'
 
 client = pymongo.MongoClient(f'{url}:27017',username='nikolas',password='gwlGwl1q')
 db = client['production']

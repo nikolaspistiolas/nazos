@@ -2,7 +2,7 @@ import pymongo
 from apis import alpaca_class
 from datetime import datetime
 
-url = '134.209.255.171'
+url = 'localhost'
 
 
 class TradingClass:

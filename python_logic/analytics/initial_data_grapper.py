@@ -3,7 +3,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 
-url = '134.209.255.171'
+url = 'localhost'
 
 client = pymongo.MongoClient(f'{url}:27017',username='nikolas',password='gwlGwl1q')
 db = client['production']
@@ -18,10 +18,6 @@ for i in data:
     i = i[0]
     if i is not None and i is not np.nan:
         symbols.append(i.split(' ')[0])
-
-for i in symbols:
-    stock_list.insert_one({'symbol': i, 'active': True})
-
 
 print(symbols)
 for s in symbols:
