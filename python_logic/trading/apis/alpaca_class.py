@@ -1,12 +1,16 @@
 import alpaca_trade_api as tradeapi
 import pymongo
 
+url = 'localhost'
 
 class AlpacaTradingInterface:
-    def __init__(self, apikey = 'PKO4BCVUWH74BXRL96C4',
-                 secretkey = 'QGA9b1DQFZo3GG0qx3CHnPZcYvcNNN9BHqDSby2d'):
+    def __init__(self, apikey = 'PKH7WOBDRB1991IKV3TW',
+                 secretkey = 'dz6MQwUsRhRFomIec8t8QcENC4zC2kDWjdkxGQMJ'):
         self.alpaca = tradeapi.REST(apikey,secretkey, 'https://paper-api.alpaca.markets', api_version='v2')
         self.account = self.alpaca.get_account()
+        client = pymongo.MongoClient(f'{url}:27017', username='nikolas', password='gwlGwl1q')
+        self.db = client['production']
+        self.stockdata = self.db['stockdata']
 
     # OPENS A MARKET ORDER
     def open_market_order(self, symbol, amount):
@@ -18,7 +22,7 @@ class AlpacaTradingInterface:
         stop_loss = (1-stop_loss) * at_price
 
         self.alpaca.submit_order(symbol=symbol, qty=amount, side='buy', type='limit',
-                                 limit_price=at_price, extended_hours=False, stop_loss=dict(stop_price=stop_loss))
+                                 limit_price=at_price, extended_hours=False, stop_loss=dict(stop_price=str(stop_loss)))
         return
 
     def close_limit_order(self, symbol, at_price, amount):
@@ -68,3 +72,6 @@ class AlpacaTradingInterface:
     def get_cash_value(self):
         return float(self.account.cash)
 
+    def get_current_price(self, symbol):
+        price = self.stockdata.find({'symbol':symbol}).sort('Date', pymongo.DESCENDING).next()['Close']
+        return float(price)
