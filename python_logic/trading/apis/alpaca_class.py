@@ -4,8 +4,8 @@ import pymongo
 url = 'localhost'
 
 class AlpacaTradingInterface:
-    def __init__(self, apikey = 'PK57L0JAF74LEHQS08P0',
-                 secretkey = 'rF4dWk187vh8rXgNuplydS1w1ItkA4taAX5aujIL'):
+    def __init__(self, apikey = 'PKU5EXGKI18H7RE1LFG4',
+                 secretkey = '7K4nXwXv4j1aTsoTnb53v53R8eVLKBNGA2gA5Od7'):
         self.alpaca = tradeapi.REST(apikey,secretkey, 'https://paper-api.alpaca.markets', api_version='v2')
 
         self.account = self.alpaca.get_account()
