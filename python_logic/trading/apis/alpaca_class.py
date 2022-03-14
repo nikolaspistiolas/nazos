@@ -7,6 +7,7 @@ class AlpacaTradingInterface:
     def __init__(self, apikey = 'PKH7WOBDRB1991IKV3TW',
                  secretkey = 'dz6MQwUsRhRFomIec8t8QcENC4zC2kDWjdkxGQMJ'):
         self.alpaca = tradeapi.REST(apikey,secretkey, 'https://paper-api.alpaca.markets', api_version='v2')
+
         self.account = self.alpaca.get_account()
         client = pymongo.MongoClient(f'{url}:27017', username='nikolas', password='gwlGwl1q')
         self.db = client['production']
@@ -18,11 +19,14 @@ class AlpacaTradingInterface:
 
     # OPENS A LIMIT ORDER AT PRICE WITH STOPLOSS
     def open_limit_order(self, symbol, amount, stop_loss, at_price):
-        print(at_price)
-        stop_loss = (1-stop_loss) * at_price
-
-        self.alpaca.submit_order(symbol=symbol, qty=amount, side='buy', type='limit',
+        second_price = self.alpaca.get_last_quote(symbol).bidprice
+        if at_price < second_price:
+            stop_loss = (1-stop_loss) * at_price
+        else:
+            stop_loss = (1 - stop_loss) * second_price
+        self.alpaca.submit_order(symbol=symbol, qty=amount, side='buy', type='limit', order_class='braket',
                                  limit_price=at_price, extended_hours=False, stop_loss=dict(stop_price=str(stop_loss)))
+        print(symbol, stop_loss)
         return
 
     def close_limit_order(self, symbol, at_price, amount):
@@ -75,3 +79,5 @@ class AlpacaTradingInterface:
     def get_current_price(self, symbol):
         price = self.stockdata.find({'symbol':symbol}).sort('Date', pymongo.DESCENDING).next()['Close']
         return float(price)
+
+tryclass = AlpacaTradingInterface()
