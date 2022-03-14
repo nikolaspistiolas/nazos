@@ -2,7 +2,8 @@ import pymongo
 import yfinance as yf
 import pandas as pd
 import numpy as np
-from mongo_url import url
+
+url = '134.209.255.171'
 
 client = pymongo.MongoClient(f'{url}:27017',username='nikolas',password='gwlGwl1q')
 db = client['production']
