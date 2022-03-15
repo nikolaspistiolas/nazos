@@ -65,7 +65,7 @@ class TradingClass:
             if self.signals[i]['signal'] == 'stable':
                 sell_price = self.signals[i]['sell_price']
                 qty = self.trade.get_active_orders()[i]['quantity']
-                self.trade.open_limit_order(i,qty,self.stop_loss,sell_price)
+                self.trade.close_limit_order(symbol=i,amount=qty,at_price=sell_price)
 
     def get_open_orders_symbols(self):
         orders = self.trade.get_active_orders()
