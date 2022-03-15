@@ -16,6 +16,7 @@ class TradingClass:
             self.prices.append(self.db['stockdata'].find({'symbol':i}).sort('Date', pymongo.DESCENDING).next()['Close'])
         self.signals = self.db['signals'].find().sort('Date', pymongo.DESCENDING).next()
         self.stop_loss = self.db['algotradevariables'].find().next()['stop_loss']
+        print('STOP LOSS:',self.stop_loss)
 
     def close_orders(self):
         open_symbols = self.get_open_orders_symbols()
