@@ -31,7 +31,8 @@ class AlpacaTradingInterface:
         return
 
     def close_limit_order(self, symbol, at_price, amount):
-        self.alpaca.submit_order(symbol=symbol, qty=amount, side='sell', type='limit', limit_price=at_price )
+        print('SELL:',symbol,at_price,amount)
+        self.alpaca.submit_order(symbol=symbol, qty=float(amount), side='sell', type='limit', limit_price=float(at_price) )
         return
 
     # CLOSES ALL ORDERS
