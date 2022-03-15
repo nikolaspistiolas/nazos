@@ -3,7 +3,7 @@ from apis import alpaca_class
 from datetime import datetime
 
 url = 'localhost'
-
+url = '134.209.255.171'
 
 class TradingClass:
     def __init__(self):
@@ -39,6 +39,7 @@ class TradingClass:
         will_open = []
         counter = len(open_symbols)
         if counter >= 10:
+            print('somehow we have more than 10 open orders already')
             return -1
         for s,p in zip(self.stocks,self.prices):
             if s not in open_symbols and self.signals[s]['signal'] == 'buy':
@@ -118,4 +119,4 @@ class TradingClass:
         self.db['account_info'].insert_one(up)
         return
 
-
+print(len(TradingClass().get_open_orders_symbols()))
