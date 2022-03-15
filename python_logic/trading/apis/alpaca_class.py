@@ -20,6 +20,7 @@ class AlpacaTradingInterface:
     # OPENS A LIMIT ORDER AT PRICE WITH STOPLOSS
     def open_limit_order(self, symbol, amount, stop_loss, at_price):
         second_price = self.alpaca.get_last_quote(symbol).bidprice
+        print(stop_loss,at_price,second_price)
         if second_price is None:
             second_price = 1000000
         if at_price < second_price:
