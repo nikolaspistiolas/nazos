@@ -24,7 +24,7 @@ class AlpacaTradingInterface:
             stop_loss = (1-stop_loss) * at_price
         else:
             stop_loss = (1 - stop_loss) * second_price
-        print(stop_loss)
+        print(stop_loss,at_price,second_price)
         self.alpaca.submit_order(symbol=symbol, qty=amount, side='buy', type='limit', order_class='bracket',
                                  limit_price=at_price, extended_hours=False, stop_loss=dict(stop_price=str(stop_loss)),
                                  take_profit=dict(limit_price='1000000'))
